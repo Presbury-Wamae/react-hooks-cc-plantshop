@@ -1,27 +1,14 @@
-import React, { useState, useEffect }  from "react";
+import React from "react";
 import PlantCard from "./PlantCard";
 
-function PlantList({search}) {
-
-  const [plants, setPlants] = useState ([])
-
-  useEffect(function(){
-    fetch("http://localhost:6001/plants")
-    .then(response => response.json())
-    .then((data) => setPlants(data))
-    .catch(error => console.log(error))
-  }, [])
-
-  const filterPlants = plants.filter((plant) => {
-    return plant.name.toLowerCase().includes(search.toLowerCase())
-  })
-
+function PlantList({ plants, onDeletePlant }) {
   return (
-    <ul className="cards">{filterPlants.map((plant) => (
-    <PlantCard key={plant.id} price={plant.price} name={plant.name} image={plant.image} />
-    ))}</ul>
+    <ul className="cards">
+      {plants.map((plant) => (
+        <PlantCard key={plant.id} plant={plant} onDeletePlant={onDeletePlant} />
+      ))}
+    </ul>
   );
 }
-
 
 export default PlantList;
